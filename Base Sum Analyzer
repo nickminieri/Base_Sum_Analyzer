@@ -1,0 +1,62 @@
+#include <stdio.h>
+
+int main(void) {
+    int number, m, minimum, maximum, num1, num2;
+    char anotherinput = '\n';
+
+    do {
+        // Clear any leftover input
+        while (anotherinput != '\n') {
+            scanf("%c", &anotherinput);
+        }
+
+        do {
+            fprintf(stdout, "Enter an integer (non-negative): ");
+            if (scanf("%d", &number) != 1) {
+                fprintf(stdout, "Invalid input. Please enter a valid number.\n");
+                while (getchar() != '\n'); // Clear the input buffer
+                continue;
+            }
+            if (number < 0) {
+                fprintf(stdout, "The number entered is negative. Please enter a non-negative integer.\n");
+            }
+        } while (number < 0);
+
+        fprintf(stdout, "Sum of Digits:\n");
+
+        minimum = number;
+        maximum = 0;
+
+        for (int i = 10; i >= 2; i--) {
+            int sum = 0;
+            m = number;
+
+            while (m > 0) {
+                sum += m % i;
+                m = m / i;
+            }
+
+            if (maximum < sum) {
+                maximum = sum;
+                num1 = i;
+            }
+            if (minimum > sum) {
+                minimum = sum;
+                num2 = i;
+            }
+
+            fprintf(stdout, "Base %d is: %d\n", i, sum);
+        }
+
+        fprintf(stdout, "\n%d has the greatest sum of digits in base %d\n", number, num1);
+        fprintf(stdout, "and least sum of digits in base %d\n", num2);
+        fprintf(stdout, "\nInput another number? Y/N ");
+
+        // Clear input buffer before reading the next input
+        while (getchar() != '\n');
+        fscanf(stdin, "%c", &anotherinput);
+
+    } while (anotherinput == 'y' || anotherinput == 'Y');
+
+    return 0;
+}
